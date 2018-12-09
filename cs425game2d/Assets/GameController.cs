@@ -5,17 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
+    public bool youWin;
+    public GameObject wintext;
     public GameObject[] obstacles;
     public GameObject[] spawn_points;
     public float speed;
     public float time_bw_spawns;
-    bool isPlaying = true;
+    public bool isPlaying = true;
 
 	// Use this for initialization
 	void Start () {
         speed = 3;
         time_bw_spawns = 2;
         StartCoroutine(ObstacleSpawning());
+        wintext.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -23,6 +26,12 @@ public class GameController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        if (youWin == true)
+        {
+            //set win text active here
+            wintext.SetActive(true);
+            Time.timeScale = 0;
         }
 	}
 

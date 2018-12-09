@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class MoleBehaviour : MonoBehaviour {
 
+    public float animtime;
+    public GameController gc;
     public Vector3[] positions = { new Vector3(-2, -0, 0), new Vector3(0, -0, 0), new Vector3(2, -0, 0) };
     public GameObject[] sensors;
     public bool startMove;
     public float molespeed;
+    public Animator animator;
 
     // Use this for initialization
     void Start () {
@@ -94,5 +97,22 @@ public class MoleBehaviour : MonoBehaviour {
             transform.position = Vector3.Lerp(from, to, Mathf.SmoothStep(0f, 1f, time)*molespeed);
             yield return null;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "projectile")
+        {
+            animator.SetBool("dead", true);
+            StartCoroutine(endGame());
+        }
+    }
+
+    IEnumerator endGame()
+    {
+        yield return new WaitForSeconds(animtime);
+        gc.youWin = true;
+        gc.isPlaying = false;
+        Destroy(this.gameObject);
     }
 }

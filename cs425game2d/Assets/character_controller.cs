@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class character_controller : MonoBehaviour {
 
+    public GameController gc;
+    public GameObject arrow;
     public float animtime;
     public bool isCollecting;
     public GameObject [] hearts;
@@ -23,6 +25,7 @@ public class character_controller : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Time.timeScale = 1;
         rockCheck.SetActive(false);
         woodCheck.SetActive(false);
         leafCheck.SetActive(false);
@@ -37,7 +40,7 @@ public class character_controller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
+        if (Input.GetKeyUp(KeyCode.LeftArrow) && gc.isPlaying)
         {
             index--;
             if (index < 0)
@@ -47,7 +50,7 @@ public class character_controller : MonoBehaviour {
             //set player position
             this.transform.position = positions[index];
         }
-        if (Input.GetKeyUp(KeyCode.RightArrow))
+        if (Input.GetKeyUp(KeyCode.RightArrow) && gc.isPlaying)
         {
             index++;
             if (index>2)
@@ -58,7 +61,7 @@ public class character_controller : MonoBehaviour {
             this.transform.position = positions[index];
         }
         //attack down
-        if (Input.GetKeyDown(KeyCode.DownArrow) && collectedLeaf && collectedRock && collectedWood)
+        if (Input.GetKeyDown(KeyCode.DownArrow) && collectedLeaf && collectedRock && collectedWood && gc.isPlaying)
         {
             animator.SetBool("back_atck", true);
             rockCheck.SetActive(false);
@@ -67,13 +70,14 @@ public class character_controller : MonoBehaviour {
             collectedLeaf = false;
             collectedRock = false;
             collectedWood = false;
+            Instantiate(arrow, this.gameObject.transform.position, Quaternion.identity);
         }
         else
         {
             animator.SetBool("back_atck", false);
         }
         //attack up
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) && gc.isPlaying)
         {
             animator.SetBool("front_atck", true);
             StartCoroutine(Collect());
@@ -124,6 +128,8 @@ public class character_controller : MonoBehaviour {
                 }
                 Debug.Log("YOU LOSE!!!!!!!!!!!!");
                 losetext.SetActive(true);
+                gc.isPlaying = false;
+                Time.timeScale = 0;
                 break;
         }
     }
