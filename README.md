@@ -12,7 +12,7 @@ If you miss with that arrow, you must gather the required materials again for an
 material, a green chackmark appears over that material in the UI. The character is no able to shoot until he has the right
 materials gathered. 
 
-###Controls
+- Controls
 The left and right arrow keys are used to move left and right.
 The top arrow key is used to break the materials in front of you.
 The bottom arrow key is used to shoot the monster behind you 
@@ -25,13 +25,13 @@ most of them from the unity asset store for free, and drew the rest myself.
 
 The technical components in this game are content generation and AI.
 
-###Content generation
+- Content generation
 The content generation happens in spawning the obstacles that come down the screen. The randomness determines
 how many obstacles spawn at a time (1 or 2 since there has to be at least one open slot left) and which obstacles
 spawn (it can be either a bush, sign, tree trunk, or rock). The variety in the materials that spawn add on to 
 the collection aspect of the game.
 
-###UI
+- UI
 The monster has behavior programmed in that allows him to dodge the obstacles by himself. He has a sensor
 that determines when the obstacles are coming and logic that lets him decide to go to a random
 available spot. This logic is implemented to make it harder to kill the monster when the character has
