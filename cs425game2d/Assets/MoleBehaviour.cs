@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class MoleBehaviour : MonoBehaviour {
 
+    public GameObject player;
+    public AudioClip running;
+    public AudioClip death;
+    public AudioSource audsrc;
     public float animtime;
     public GameController gc;
     public Vector3[] positions = { new Vector3(-2, -0, 0), new Vector3(0, -0, 0), new Vector3(2, -0, 0) };
@@ -16,6 +20,7 @@ public class MoleBehaviour : MonoBehaviour {
     void Start () {
         startMove = false;
         molespeed = 2;
+        audsrc = gameObject.GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -104,6 +109,7 @@ public class MoleBehaviour : MonoBehaviour {
         if (other.tag == "projectile")
         {
             animator.SetBool("dead", true);
+            audsrc.PlayOneShot(death, 0.7f);
             StartCoroutine(endGame());
         }
     }
@@ -112,6 +118,7 @@ public class MoleBehaviour : MonoBehaviour {
     {
         yield return new WaitForSeconds(animtime);
         gc.youWin = true;
+        player.GetComponent<character_controller>().audsrc.PlayOneShot(player.GetComponent<character_controller>().clapping);
         gc.isPlaying = false;
         Destroy(this.gameObject);
     }

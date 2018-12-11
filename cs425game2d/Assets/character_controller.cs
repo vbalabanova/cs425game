@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class character_controller : MonoBehaviour {
 
+    public AudioSource audsrc;
+    public AudioClip running;
+    public AudioClip AAH;
+    public AudioClip swoosh;
+    public AudioClip break_obstacle;
+    public AudioClip arrow_sound;
+    public AudioClip clapping;
+    public AudioClip sadhorn;
+
     public GameController gc;
     public GameObject arrow;
     public float animtime;
@@ -26,6 +35,9 @@ public class character_controller : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Time.timeScale = 1;
+
+        audsrc = gameObject.GetComponent<AudioSource>();
+
         rockCheck.SetActive(false);
         woodCheck.SetActive(false);
         leafCheck.SetActive(false);
@@ -71,6 +83,8 @@ public class character_controller : MonoBehaviour {
             collectedRock = false;
             collectedWood = false;
             Instantiate(arrow, this.gameObject.transform.position, Quaternion.identity);
+            audsrc.PlayOneShot(arrow_sound, 1f);
+            this.continueRunSound();
         }
         else
         {
@@ -80,12 +94,21 @@ public class character_controller : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.UpArrow) && gc.isPlaying)
         {
             animator.SetBool("front_atck", true);
+            audsrc.PlayOneShot(swoosh, 0.7f);
+            this.continueRunSound();
             StartCoroutine(Collect());
         }
         else
         {
             animator.SetBool("front_atck", false);
         }
+    }
+
+    private void continueRunSound()
+    {
+        audsrc.clip = running;
+        audsrc.loop = true;
+        audsrc.Play();
     }
 
     private void changeHealth(int damage) {
@@ -128,11 +151,14 @@ public class character_controller : MonoBehaviour {
                 }
                 Debug.Log("YOU LOSE!!!!!!!!!!!!");
                 losetext.SetActive(true);
+                audsrc.PlayOneShot(sadhorn, 0.7f);
                 gc.isPlaying = false;
+                //audsrc.Stop();
                 Time.timeScale = 0;
                 break;
         }
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -140,6 +166,8 @@ public class character_controller : MonoBehaviour {
         {
             //lose health
             changeHealth(-1);
+            audsrc.PlayOneShot(AAH, 0.7f);
+            this.continueRunSound();
             Debug.Log("HIT\n");
             Destroy(collision.gameObject);
         }
@@ -148,18 +176,24 @@ public class character_controller : MonoBehaviour {
             if (collision.gameObject.name == "rock(Clone)") {
                 collectedRock = true;
                 rockCheck.SetActive(true);
+                audsrc.PlayOneShot(break_obstacle, 0.7f);
+                this.continueRunSound();
                 Destroy(collision.gameObject);
             }
             else if (collision.gameObject.name == "sign(Clone)" || collision.name == "trunk(Clone)")
             {
                 collectedWood = true;
                 woodCheck.SetActive(true);
+                audsrc.PlayOneShot(break_obstacle, 0.7f);
+                this.continueRunSound();
                 Destroy(collision.gameObject);
             }
             else if (collision.gameObject.name == "bush(Clone)")
             {
                 collectedLeaf = true;
                 leafCheck.SetActive(true);
+                audsrc.PlayOneShot(break_obstacle, 0.7f);
+                this.continueRunSound();
                 Destroy(collision.gameObject);
             }
         }
