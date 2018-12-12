@@ -18,6 +18,7 @@ materials gathered.
 	The top arrow key is used to break the materials in front of you.
 	The bottom arrow key is used to shoot the monster behind you 
 	(this is only possible if you have all the materials)
+	Press R to restart the game
 
 ## Technical Part
 
