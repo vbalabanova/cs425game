@@ -41,3 +41,7 @@ The technical components in this game are content generation and AI.
 	available spot. This logic is implemented to make it harder to kill the monster when the character has
 	an arrow ready. Since the monster will be dodging to a random open spot, it is harder to hit, which
 	would have been easier if the monster was just following the character's movement exactly.
+	
+## Video
+
+https://youtu.be/kO7Z3QBxh4o
